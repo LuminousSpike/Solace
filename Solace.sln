@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solace", "Solace\Solace\Solace.csproj", "{0FE7B7B9-30EB-49F8-9805-B82EDD9CDD27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolaceContent", "Solace\SolaceContent\SolaceContent.contentproj", "{CE4C11EF-2589-4248-B367-298516FB9733}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solar", "..\Solar\Solar.csproj", "{7A0717A6-11BE-4AC7-B658-0BD2C94501E3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0FE7B7B9-30EB-49F8-9805-B82EDD9CDD27}.Debug|x86.ActiveCfg = Debug|x86
+		{0FE7B7B9-30EB-49F8-9805-B82EDD9CDD27}.Debug|x86.Build.0 = Debug|x86
+		{0FE7B7B9-30EB-49F8-9805-B82EDD9CDD27}.Release|x86.ActiveCfg = Release|x86
+		{0FE7B7B9-30EB-49F8-9805-B82EDD9CDD27}.Release|x86.Build.0 = Release|x86
+		{CE4C11EF-2589-4248-B367-298516FB9733}.Debug|x86.ActiveCfg = Debug|x86
+		{CE4C11EF-2589-4248-B367-298516FB9733}.Release|x86.ActiveCfg = Release|x86
+		{7A0717A6-11BE-4AC7-B658-0BD2C94501E3}.Debug|x86.ActiveCfg = Debug|x86
+		{7A0717A6-11BE-4AC7-B658-0BD2C94501E3}.Debug|x86.Build.0 = Debug|x86
+		{7A0717A6-11BE-4AC7-B658-0BD2C94501E3}.Release|x86.ActiveCfg = Release|x86
+		{7A0717A6-11BE-4AC7-B658-0BD2C94501E3}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
