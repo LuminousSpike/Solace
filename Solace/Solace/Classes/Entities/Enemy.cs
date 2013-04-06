@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Solace
@@ -21,11 +22,18 @@ namespace Solace
             return other;
         }
 
-        public void LoadContent(Vector2 position)
+        public void Initialize(Vector2 position)
         {
-            myShip.LoadContent();
+            myShip.TextureData = new Color[myShip.ShipTexture.Width * myShip.ShipTexture.Height];
+            myShip.ShipTexture.GetData(myShip.TextureData);
             Position = position;
             Active = true;
+        }
+
+        public void LoadContent(ContentManager Content)
+        {
+            myShip.LoadContent(Content);
+            
         }
 
         public void Update(GameTime gametime, ProjectileManager projectilemanager)

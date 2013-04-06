@@ -51,7 +51,7 @@ namespace Solace
         {
             Enemy enemy = new Enemy(ship);
             Vector2 position = new Vector2(Game1.ViewPortWidth + enemy.myShip.ShipTexture.Width / 2, random.Next(100, (int)Game1.ViewPortHeight - 100));
-            enemy.LoadContent(position);
+            enemy.Initialize(position);
             Enemies.Add(enemy);
         }
 

@@ -66,7 +66,9 @@ namespace Solace
             Content.RootDirectory = "Content";
             graphics.PreferredBackBufferWidth = 1920;
             graphics.PreferredBackBufferHeight = 1080;
-            graphics.ToggleFullScreen();
+            graphics.PreferMultiSampling = true;
+            
+            //graphics.ToggleFullScreen();
             graphics.ApplyChanges();
         }
 
@@ -81,7 +83,6 @@ namespace Solace
             // TODO: Add your initialization logic here
             gameState = GameState.StartMenu;
             LoadedGameState = GameState.StartMenu;
-
             startMenu = new StartMenuScreen(graphics);
             startMenu.Initialize();
 

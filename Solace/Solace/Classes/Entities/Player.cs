@@ -28,15 +28,15 @@ namespace Solace
             Flamoca = 0f;
         }
 
-        public void LoadContent(ContentManager content)
+        public void LoadContent(ContentManager Content)
         {
             myShip = xmlEngine.PlayerShips[0].ShallowCopy();
-            myShip.LoadContent();
-            myShip.Position = new Vector2(Game1.ViewPortWidth / 2 - myShip.ShipTexture.Width / 2, Game1.ViewPortHeight / 2 - myShip.ShipTexture.Height / 2);
+            myShip.LoadContent(Content);
+            myShip.Position = new Vector3(Game1.ViewPortWidth / 2 - myShip.ShipTexture.Width / 2, Game1.ViewPortHeight / 2 - myShip.ShipTexture.Height / 2, 0f);
             screenSize = new Vector2(Game1.ViewPortWidth, Game1.ViewPortHeight);
         }
 
-        public void Update(GameTime gameTime, ProjectileManager projectileManager)
+        public void Update(GameTime gameTime, ProjectileManager projectileManager, GraphicsDevice graphicsDevice, Matrix view, Matrix projection)
         {
             if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.Up))
             {
@@ -68,17 +68,17 @@ namespace Solace
             }
 #endif
 
-            myShip.Update(gameTime);
-            myShip.FireWeapon(gameTime, projectileManager, myShip.Position, true);
+            myShip.Update(gameTime, graphicsDevice, view, projection);
+            myShip.FireWeapon(gameTime, projectileManager, new Vector2(myShip.Position.X, myShip.Position.Y), true);
 
             // Make sure that the player does not go out of bounds
             myShip.Position.X = MathHelper.Clamp(myShip.Position.X, 0, screenSize.X - myShip.ShipTexture.Width);
             myShip.Position.Y = MathHelper.Clamp(myShip.Position.Y, 0, screenSize.Y - myShip.ShipTexture.Height);
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(Matrix view, Matrix projection)
         {
-            spriteBatch.Draw(myShip.ShipTexture, myShip.Position, Color.White);
+            myShip.DrawModel(myShip.ShipModel,view, projection);
         }
     }
 }

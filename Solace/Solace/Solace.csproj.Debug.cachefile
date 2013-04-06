@@ -22,6 +22,9 @@ Content\Sprites\Ships\Player-1.xnb
 Content\Fonts\HUDFont.xnb
 Content\Fonts\StartMenuButtonFont.xnb
 Content\Fonts\StartMenuHeaderFont.xnb
+Content\Models\Ships\Player Ship\SS1.xnb
+Content\Models\Ships\Player Ship\wasphunter_texture_0.xnb
+Content\Models\Ships\Player Ship\untitled.xnb
 Data\Ships\ES_Trimil.xml
 Data\Ships\ES_Vemrail.xml
 Data\Ships\PS_Old Gum.xml

@@ -15,6 +15,11 @@ namespace Solace
         Player player;
         HudManager hudManager;
 
+        // Set up the 3D Matrices
+        private Matrix world = Matrix.CreateTranslation(new Vector3(0, 0, 0));
+        private Matrix view = Matrix.CreateLookAt(new Vector3(0, 0, 10), new Vector3(0, 0, 0), Vector3.UnitY);
+        private Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), 1920 / 1080, 0.1f, 100f);
+
         public GameScreen(GraphicsDeviceManager graphicsDevice)
         {
         }
@@ -96,7 +101,7 @@ namespace Solace
             // TODO: Add your update logic here
             backgroundManager.Update();
             spawnManager.Update(gameTime, projectileManager);
-            player.Update(gameTime, projectileManager);
+            player.Update(gameTime, projectileManager, graphicsDevice, view, projection);
             projectileManager.Update();
             collisionManager.Update(player, spawnManager.enemyManager.Enemies, spawnManager.enemyManager.Asteroids, projectileManager.Projectiles);
             hudManager.Update(graphicsDevice);
@@ -114,7 +119,9 @@ namespace Solace
                 RasterizerState.CullCounterClockwise, null, spriteScale);
             projectileManager.Draw(spriteBatch);
             spawnManager.Draw(spriteBatch);
-            player.Draw(spriteBatch);
+            graphicsDevice.DepthStencilState = DepthStencilState.Default;
+            graphicsDevice.BlendState = BlendState.Opaque;
+            player.Draw(view, projection);
             hudManager.Draw(spriteBatch);
             spriteBatch.End();
         }

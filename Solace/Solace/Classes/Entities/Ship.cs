@@ -1,25 +1,28 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Solace
 {
     class Ship
     {
-        public string Name, ShipTexturePath, ShipType, AI;
+        public string Name, ShipTexturePath, ShipModelPath, ShipType, AI;
         public int Health, MaxHealth, WeaponClass, Armour, Cost, Level, Points, Hardpoints;
         public float Shield, MaxShield, Speed;
         public Weapon[] myHardpoints;
         public Texture2D ShipTexture;
-        public Vector2 Position;
+        public Model ShipModel;
+        public Vector3 Position;
         public Matrix myTransform;
         public Rectangle CollisionBox;
 #if (!ANDROID)
         public Color[] TextureData;
 #endif
-        
+
+        private Matrix world = Matrix.CreateTranslation(new Vector3(0, 0, 0));
         private bool acceleratingX = false, acceleratingY = false, shieldDown = false;
-        private Vector2 mySpeed = new Vector2();
-        private float shieldReserve;
+        private Vector3 mySpeed = new Vector3();
+        private float shieldReserve, rotation;
 
         // Player Constructor
         public Ship(string name, int health, float shield, float speed, int weaponclass, int armour, string texture, int cost, string shiptype, int hardpoints)
@@ -71,11 +74,12 @@ namespace Solace
             return other;
         }
 
-        public void LoadContent()
+        public void LoadContent(ContentManager Content)
         {
 #if (!ANDROID)
             TextureData = new Color[ShipTexture.Width * ShipTexture.Height];
             ShipTexture.GetData(TextureData);
+            ShipModel = Content.Load<Model>(@"Models\Ships\Player Ship\SS1");
 #endif
         }
 
@@ -157,7 +161,7 @@ namespace Solace
             }
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, GraphicsDevice graphicsDevice, Matrix view, Matrix projection)
         {
             Position += mySpeed;
             if (acceleratingX == true)
@@ -169,7 +173,16 @@ namespace Solace
                 acceleratingY = false;
             else
                 Deaccelerate(false, true);
-            myTransform = Matrix.CreateTranslation(new Vector3(Position, 0.0f));
+
+            // Convert 2D Coordinates to 3D worldspace Coordinates.
+            Vector3 ProjectedPosition = graphicsDevice.Viewport.Unproject(new Vector3(Position.X, Position.Y, 0.1f), projection, view, Matrix.CreateTranslation(new Vector3(0, 0, 0)));
+
+            // Rotate, scale and translate the 3D model via worldspace.
+            world = Matrix.CreateScale(0.00015f, 0.00015f, 0.00015f) * Matrix.CreateRotationY(MathHelper.ToRadians(180))
+                * Matrix.CreateRotationY(MathHelper.ToRadians(90)) * Matrix.CreateRotationZ(MathHelper.ToRadians(270))
+                * Matrix.CreateTranslation(ProjectedPosition);
+
+            myTransform = Matrix.CreateTranslation(new Vector3(Position.X, Position.Y, 0f));
             CollisionBox = CollisionManager.CalculateBoundingRectangle(new Rectangle(0, 0, ShipTexture.Width, ShipTexture.Height), myTransform);
 
             // Shield recharge
@@ -190,6 +203,25 @@ namespace Solace
             {
                 Shield = shieldReserve;
                 shieldDown = false;
+            }
+        }
+
+        public void DrawModel(Model model, Matrix view, Matrix projection)
+        {
+            foreach (ModelMesh mesh in model.Meshes)
+            {
+                foreach (BasicEffect effect in mesh.Effects)
+                {
+                    effect.World = world;
+                    effect.View = view;
+                    effect.Projection = projection;
+                    effect.EnableDefaultLighting();
+                    effect.PreferPerPixelLighting = true;
+                    effect.DirectionalLight0.Direction = new Vector3(0, 0, -1);  // coming along the x-axis
+                    effect.AmbientLightColor = new Vector3(0.2f, 0.2f, 0.2f);
+                    effect.EmissiveColor = new Vector3(0.1f, 0.1f, 0.1f);
+                }
+                mesh.Draw();
             }
         }
     }
